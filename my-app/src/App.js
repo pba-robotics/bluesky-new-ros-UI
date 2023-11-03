@@ -19,7 +19,14 @@ function App() {
     name : '/listener',
     messageType : 'std_msgs/String'
   }))
+  const [battery_listener, setBattery_Listener] = useState(new ROSLIB.Topic({
+    ros : ros,
+    name : '/bms_handler/veh_battery',
+    messageType : 'sensor_msgs/BatteryState'
+  }))
+  const [batteryOutput, setBatteryOutput] = useState("");
 
+  // useEffect so this only happens once on initial render
   useEffect(() => {
     // If there is an error on the backend, an 'error' emit will be emitted.
     ros.on('error', function(error) {
@@ -51,6 +58,12 @@ function App() {
       // listener.unsubscribe();
     });
     publisher.publish(new ROSLIB.Message({data:"test"}))
+
+
+    battery_listener.subscribe(function(message) {
+      console.log("battery message", message);
+      setBatteryOutput(message);
+    })
   }, [])
 
 
@@ -68,6 +81,7 @@ function App() {
   const handleSubmit = (e) => {
     publisher.publish(new ROSLIB.Message({data:messageText}))
     e.preventDefault()
+    setMessageText("")
   }
 
   const handleChange = (e) => {
@@ -76,7 +90,7 @@ function App() {
 
   return (
     <>
-    <div className="App">
+    <div className="App" style={{width:1024, height:768}}>
       <header className="App-header">
         <div>
           Connection Status: {status}
@@ -86,10 +100,16 @@ function App() {
           Receieved: {output}
         </div>
         <div>
+          Battery Raw Output: {JSON.stringify(batteryOutput)}
+        </div>
+        <div>
+          Battery: {batteryOutput.percentage}
+        </div>
+        <div>
           <div>
             Write test ROS message below.
           </div>
-          <form value={messageText} onSubmit={handleSubmit}>
+          <form>
             <input value={messageText} onChange={handleChange} name="ROS-sender"></input>
             <button onClick={handleSubmit}> Submit </button>
           </form>
