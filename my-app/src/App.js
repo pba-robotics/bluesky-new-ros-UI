@@ -37,20 +37,20 @@ function App() {
   }))
   const [batteryOutput, setBatteryOutput] = useState(new ROSLIB.Message({
     header:{ 
-      seq: 2358,
+      seq: 0,
       stamp:{
-        secs: 1699253934,
-        nsecs: 856261784,
+        secs: 0,
+        nsecs: 0,
         },
       frame_id: ''
       },
-    voltage: 26.79400062561035,
+    voltage: NaN,
     temperature: 0.0,
-    current: -2.0899999141693115,
-    charge: 28.479999542236328,
+    current: NaN,
+    charge: NaN,
     capacity: 38.16999816894531,
     design_capacity: 40.0,
-    percentage: 0.7461357116699219,
+    percentage: NaN,
     power_supply_status: 2,
     power_supply_health: 0,
     power_supply_technology: 4,
@@ -62,18 +62,19 @@ function App() {
 
   }));
   const [batteryOutputHistory, setBatteryOutputHistory] = useState([]);
+  const [selectedBatteryParameter, setSelectedBatteryParameter] = useState('Percentage')
   const [statusOutput, setStatusOutput] = useState(new ROSLIB.Message({
-    battpercentage: 68.69268798828125,
-    battremaining: 904.1379024015739,
-    localizationscore: 0.0,
-    ipaddress: "[192.168.2.4,192.168.0.10,172.17.0.1]",
-    mapid: "a77dafa3-8350-49aa-a953-f8ca58d4ad8e",
+    battpercentage: NaN,
+    battremaining: NaN,
+    localizationscore: NaN,
+    ipaddress: "Uninitialised",
+    mapid: "Uninitialised",
     x: 0.0,
     y: 0.0,
     z: 0.0,
     theta: 0.0,
     state: '',
-    statedetails: "Location is lost, please relocalize..."
+    statedetails: "Uninitialised"
   }))
   const [status_listener, setStatus_Listener] = useState(new ROSLIB.Topic({
     ros : ros,
@@ -113,8 +114,8 @@ function App() {
     });
 
     // Create a connection to the rosbridge WebSocket server.
-    // ros.connect('ws://192.168.0.10:9099'); // For GR200
-    ros.connect('ws://0.0.0.0:9090');
+    ros.connect('ws://192.168.0.10:9090'); // For GR200
+    //ros.connect('ws://0.0.0.0:9090');
 
 
     // Then we add a callback to be called every time a message is published on this topic.
@@ -174,13 +175,20 @@ function App() {
     setSelectedView(e.target.value)
   }
 
+  const handleBatteryButtonClick = (e) => {
+    console.log(e)
+    setSelectedBatteryParameter(e.target.value)
+  }
+
   return (
     <>
     <Flex className="App" w='1024px' h='768px' fontSize='36' border='4px' flexDirection='column'>
       <Header status={status}/>
       {selectedView === "Dashboard" && <Dashboard batteryOutput={batteryOutput} statusOutput={statusOutput} />}
       {selectedView === "Navigation" && <Navigation/>}
-      {selectedView === "Battery" && <Battery batteryOutput={batteryOutput} batteryOutputHistory={batteryOutputHistory}/>}
+      {selectedView === "Battery" && 
+      <Battery batteryOutput={batteryOutput} batteryOutputHistory={batteryOutputHistory} 
+      selectedBatteryParameter={selectedBatteryParameter} onClick={handleBatteryButtonClick}/>}
       {selectedView === "Settings" && <Settings/>}
       <Buttons selectedView={selectedView} onClick={handleButtonClick} />
     </Flex>
