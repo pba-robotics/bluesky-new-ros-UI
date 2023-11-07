@@ -38,3 +38,4 @@ Navigate to web application folder (inside web-GUI or repo-name folder) and run 
 
 
 # Known Issues
+Sometimes, the listener cannot receieve messages if the React web app is hosted on a different machine, even if the websocket is connected.
