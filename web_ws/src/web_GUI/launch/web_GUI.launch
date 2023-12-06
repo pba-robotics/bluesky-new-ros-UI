@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<launch>
+        <arg name="robot_simulation"         default="$(env ROBOT_SIMULATION)"                  doc="set flag to indicate if robot is run in simulation mode."/>
+        <arg name="robot_base"               default="$(env ROBOT_BASE)"                        doc="used to identify robot base model to be loaded."/>
+        <arg name="robot_serial_number"      default="$(env ROBOT_SERIAL_NUMBER)"               doc="unique serial number assigned to the robot"/>
+        <arg name="robot_assigned_id"        default="$(env ROBOT_ID)"                          doc="unique FMS allocated robot id for robot"/>
+        <arg name="robot_auto_initialise"    default="$(env ROBOT_AUTO_INITIALISE)"             doc="set flag to auto initialise robot on startup"/>
+        <arg name="robot_map_layout"         default="$(env HOME)/$(env ROBOT_MAP_LAYOUT)"      doc="last loaded map layout"/>
+        <arg name="fms_ip_address"           default="$(env FMS_IP_ADDRESS)"                    doc="FMS ip address"/>
+        <arg name="fms_port_number"          default="$(env FMS_PORT_NUMBER)"                   doc="FMS port number"/>
+        <param name="robot_base" value="$(arg robot_base)"/>
+        <param name="robot_serial_number" value="$(arg robot_serial_number)"/>
+
+        <node pkg="web_GUI" type="task_listener.py" name="task_listener" output="screen"/>
+   
+</launch>

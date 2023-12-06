@@ -1,0 +1,2 @@
+web_GUI
+-DCATKIN_DEVEL_PREFIX=/home/user/web_ws/devel -DCMAKE_INSTALL_PREFIX=/home/user/web_ws/install -G Unix Makefiles

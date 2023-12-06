@@ -1,0 +1,8 @@
+prefix=/home/user/web_ws/devel
+
+Name: web_GUI
+Description: Description of web_GUI
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

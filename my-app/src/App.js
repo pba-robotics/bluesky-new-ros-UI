@@ -81,6 +81,8 @@ function App() {
     name : '/navibee/robotstatus',
     messageType : 'navibee_msgs/RobotStatus'
   }))
+  const [robotBase, setRobotBase] = useState('')
+  const [robotSerialNumber, setRobotSerialNumber] = useState('')
 
   // only for testing purposes
   // const [battery_publisher, setBattery_Publisher] = useState(new ROSLIB.Topic({
@@ -114,7 +116,9 @@ function App() {
     });
 
     // Create a connection to the rosbridge WebSocket server.
-    ros.connect('ws://192.168.0.10:9090'); // For GR200
+    //ros.connect('ws://192.168.0.10:9099'); // For GR200
+    ros.connect('ws://192.168.0.226:9099') // For GR200
+    //ros.connect('ws://0.0.0.0:9099'); // For GR200 or GR600
     //ros.connect('ws://0.0.0.0:9090');
 
 
@@ -142,6 +146,24 @@ function App() {
 
     status_listener.subscribe(function(message) {
       setStatusOutput(message);
+    })
+
+    var robot_base = new ROSLIB.Param({
+      ros : ros,
+      name : 'robot_base'
+    });
+  
+    robot_base.get(function(value) {
+      setRobotBase(value);
+    });
+
+    var robot_serial_number = new ROSLIB.Param({
+      ros : ros,
+      name : 'robot_serial_number'
+    });
+
+    robot_serial_number.get(function(value) {
+      setRobotSerialNumber(value)
     })
   }, [])
 
@@ -183,7 +205,7 @@ function App() {
   return (
     <>
     <Flex className="App" w='1024px' h='768px' fontSize='36' border='4px' flexDirection='column'>
-      <Header status={status}/>
+      <Header robotBase={robotBase} robotSerialNumber={robotSerialNumber} status={status}/>
       {selectedView === "Dashboard" && <Dashboard batteryOutput={batteryOutput} statusOutput={statusOutput} />}
       {selectedView === "Navigation" && <Navigation/>}
       {selectedView === "Battery" && 

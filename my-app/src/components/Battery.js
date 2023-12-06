@@ -1,4 +1,4 @@
-import { HStack, Box, Flex, Button } from "@chakra-ui/react"
+import { HStack, Box, Flex, Button, Center } from "@chakra-ui/react"
 import React from "react"
 import Plot from 'react-plotly.js'
 
@@ -32,16 +32,16 @@ function Battery(props) {
    
     return(
         <Box>
-            <HStack w='1024px' justifyContent='center'>
-                <Button w='341px' h='auto' justifyContent='center' fontSize='42' value='Percentage' _hover={{bg: false}} bgColor={props.selectedBatteryParameter === "Percentage" ? 'aqua' : 'none'} onClick={props.onClick}>
+            <HStack marginLeft='auto' marginRight='auto' marginTop='20px' w='1000px' justifyContent='center' spacing='30px'>
+                <Button w='320px' h='auto' justifyContent='center' fontSize='42' value='Percentage' _hover={{bg: false}} bgColor={props.selectedBatteryParameter === "Percentage" ? 'aqua' : 'none'} onClick={props.onClick}>
                     Battery %:  <br/>
                     {(props.batteryOutput.percentage*100).toFixed(2)}
                 </Button>
-                <Button w='341px' h='auto' justifyContent='center' fontSize='42' value='Current' _hover={{bg: false}} bgColor={props.selectedBatteryParameter === "Current" ? 'aqua' : 'none'} onClick={props.onClick}>
+                <Button w='320px' h='auto' justifyContent='center' fontSize='42' value='Current' _hover={{bg: false}} bgColor={props.selectedBatteryParameter === "Current" ? 'aqua' : 'none'} onClick={props.onClick}>
                     Current: <br/>
                     {props.batteryOutput.current.toFixed(2)} A
                 </Button>
-                <Button w='341px' h='auto' justifyContent='center' fontSize='42' value='Temperature' _hover={{bg: false}} bgColor={props.selectedBatteryParameter === "Temperature" ? 'aqua' : 'none'} onClick={props.onClick}>
+                <Button w='320px' h='auto' justifyContent='center' fontSize='42' value='Temperature' _hover={{bg: false}} bgColor={props.selectedBatteryParameter === "Temperature" ? 'aqua' : 'none'} onClick={props.onClick}>
                     Temperature: <br/>
                     {average(props.batteryOutput.cell_temperature).toFixed(2) + ' \u00B0'}C
                 </Button>
